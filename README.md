@@ -1,24 +1,41 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a demo to demostration to steps to create different version of api in Rails 5 app.
 
-Things you may want to cover:
+### Ruby version
 
-* Ruby version
+* ruby-2.2.3
+* rails-5.0.2
 
-* System dependencies
+How to create a api app in rails
+======
 
-* Configuration
+``` shell
+rails new example_api --api # create a api application
 
-* Database creation
+rails g scaffold todo title completed:boolean order:integer # generate todo scaffold
+```
 
-* Database initialization
+Steps to create version 1(v1)
+======
 
-* How to run the test suite
+* First you should change `config/routes.rb`.Add a new namespace(v1).
+``` ruby
+  Rails.application.routes.draw do
+    concern :api_base do
+      resources :todos
+    end
 
-* Services (job queues, cache servers, search engines, etc.)
+    namespace :v1 do
+      concerns :api_base
+    end
+  end
+```
 
-* Deployment instructions
+* Then refactoring the application.We’ll need to move and update source files to reflect the namespacing we just defined in the routes file.
 
-* ...
+⋅⋅⋅Create a new v1/ subfolders under app/controllers, app/serializers, test/controllers, and test/serializers
+
+⋅⋅⋅Move the source files to be versioned under the new subfolders using mv or git mv.
+
+⋅⋅⋅Namespace the affected classes. Ex: TodosController becomes V1::TodosController.
