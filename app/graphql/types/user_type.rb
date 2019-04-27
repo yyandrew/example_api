@@ -3,5 +3,6 @@ module Types
     field :id, ID, null: false
     field :name, String, null: false
     field :email, String, null: false
+    field :todos, [TodoType], null: true
   end
 end
